@@ -50,3 +50,4 @@ Seed papers are added as initial rows. The paper title stays in English when app
 - Include at least one strong anchor phrase of two or more words. Strong anchors should capture the topic semantics, e.g. `thinking with images`, `visual tool use`, `on-policy distillation`, or `world action model`.
 - Avoid generic keyword lists that would match most AI/CV/LG papers.
 - After creation, mention the created path and any seed rows included.
+- If DeepXiv-related code fails, read the official DeepXiv documentation at https://github.com/DeepXiv/deepxiv_sdk/blob/main/README.md and https://github.com/DeepXiv/deepxiv_sdk/blob/main/USAGE.md before debugging further.

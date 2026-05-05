@@ -134,3 +134,4 @@ Do not edit decisions.json, final.md, topics/*.md, caches, or scripts. The paren
 - If `DEEPXIV_TOKEN` is missing, stop and tell the user to set it in the environment, `./.env`, or `~/.env`.
 - If DeepXiv returns 404 for a paper, treat it as indexing delay; the script falls back to arXiv metadata.
 - If authentication, rate-limit, arXiv parsing, or network errors occur, let the script fail visibly and report the error. Do not hide failures with broad exception handling.
+- If DeepXiv-related code fails, read the official DeepXiv documentation at https://github.com/DeepXiv/deepxiv_sdk/blob/main/README.md and https://github.com/DeepXiv/deepxiv_sdk/blob/main/USAGE.md before debugging further.
