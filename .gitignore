@@ -1,0 +1,12 @@
+.specstory
+__pycache__
+tests
+
+cache/*
+!cache/.gitkeep
+
+reports/*
+!reports/.gitkeep
+
+topics/*
+!topics/.gitkeep

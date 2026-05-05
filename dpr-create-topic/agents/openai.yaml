@@ -1,0 +1,4 @@
+interface:
+  display_name: "DPR Create Topic"
+  short_description: "Create DPR topic markdown trackers"
+  default_prompt: "Use $dpr-create-topic to create a tracked research topic document from a topic name and optional arXiv seed papers."

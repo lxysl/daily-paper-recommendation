@@ -1,0 +1,4 @@
+interface:
+  display_name: "DPR Daily Recommendation"
+  short_description: "Daily arXiv recommendations from DeepXiv"
+  default_prompt: "Use $dpr-daily-recommendation to collect yesterday's AI papers, review candidates, and write the daily recommendation report."
