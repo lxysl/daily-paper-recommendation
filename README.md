@@ -26,11 +26,29 @@ Daily Paper Recommendation (DPR) 是一个面向个人研究跟踪的 arXiv 每�
 
 `cache/`、`reports/`、`topics/` 中的运行产物默认不加入 Git；仓库只保留 `.gitkeep` 以保存空目录。
 
-## 安装 DeepXiv
+## LLM Agent 一句话安装
+
+请将此内容复制到您的 Claude Code 或 Codex 中：
+
+```
+Please help me install the skills from https://github.com/lxysl/daily-paper-recommendation, just clone it then follow the INSTALL.md.
+After installation, prompt the user to confirm: The current configuration excludes papers with limited application scope, such as remote sensing, medicine, and minority languages.
+If the user needs to modify it, prompt them to enter the fields they wish to exclude and update `dpr-daily-recommendation/SKILL.md:127`.
+```
+
+## 手动安装
+
+### 安装 Skill
+
+```
+git clone https://github.com/lxysl/daily-paper-recommendation
+```
+
+将 `dpr-create-topic/` 和 `dpr-daily-recommendation/` 文件夹复制到 `~/.claude/skills/` 或 `~/.codex/skills/` 中，具体取决于您使用的工具（Claude Code 或 Codex）。
+
+### 安装 DeepXiv
 
 本项目的脚本直接访问 arXiv 与 DeepXiv HTTP 接口，避免在工作流中导入 DeepXiv CLI 的可选 agent 依赖。但仍建议在同一个 Python 环境中安装 DeepXiv SDK，便于获取 token、手动排查和直接使用官方 CLI。
-
-### 手动安装
 
 推荐使用项目约定的 `academic` conda 环境：
 
@@ -64,22 +82,6 @@ DEEPXIV_TOKEN=your_token
 ```
 
 DeepXiv 官方文档说明，匿名自动 token 每天约 1,000 次请求；在 [data.rag.ac.cn/register](https://data.rag.ac.cn/register) 注册的 token 每天约 10,000 次请求。
-
-### LLM Agent 一句话安装
-
-把下面这句话发给 Codex、Claude Code 或其他 LLM Agent：
-
-```text
-请帮我安装 DeepXiv SDK；开始前先检查当前 Python/conda 环境，并明确告诉我将安装到哪个环境或目录，等我确认安装位置后，再运行 python -m pip install -U deepxiv-sdk。
-```
-
-如果你需要完整 DeepXiv agent/MCP 能力，把最后的安装命令改成：
-
-```text
-python -m pip install -U "deepxiv-sdk[all]"
-```
-
-自动安装时必须先确认安装位置，避免把包装进错误的 conda 环境或系统 Python。
 
 ## 快速开始
 
