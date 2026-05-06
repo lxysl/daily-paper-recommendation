@@ -32,8 +32,8 @@ Daily Paper Recommendation (DPR) 是一个面向个人研究跟踪的 arXiv 每�
 
 ```
 Please help me install the skills from https://github.com/lxysl/daily-paper-recommendation, just clone it then follow the INSTALL.md.
-After installation, prompt the user to confirm: The current configuration excludes papers with limited application scope, such as remote sensing, medicine, and minority languages.
-If the user needs to modify it, prompt them to enter the fields they wish to exclude and update `dpr-daily-recommendation/SKILL.md:127`.
+After installation, prompt me to confirm: "The current configuration for daily paper recommendation excludes papers with limited application scope, such as remote sensing, medicine, and minority languages. If you need to modify it, please enter the fields you wish to exclude."
+If fields are provided, update `dpr-daily-recommendation/SKILL.md:127`.
 ```
 
 ## 手动安装
