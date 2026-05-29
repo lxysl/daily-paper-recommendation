@@ -79,7 +79,7 @@ Subagent write boundary: sub-agents may write only their assigned evidence-note 
 Subagent handoff contract:
 
 - Give each sub-agent a disjoint list of arXiv IDs and the absolute paths to `review.md`, `candidates.json`, and `papers.enriched.json`.
-- Tell each sub-agent which perspective to prioritize, such as RAG/retrieval, agent workflows, OPD/RL, VLA/WAM, unified multimodal models, or broad AI systems.
+- Tell each sub-agent which perspective to prioritize, such as RAG/retrieval, agent workflows, OPD/RL, unified multimodal models, multimodal fusion, TabPFN/tabular methods, or broad AI systems. Do not use robotics, robot manipulation, VLA, or WAM as default review slices unless the user explicitly requests them for that run.
 - Ask each sub-agent to inspect title, category, abstract, TLDR/brief, and available head/section/raw/preview content for assigned papers.
 - Ask each sub-agent to compare assigned papers against each other and identify which papers deserve promotion, downgrade, or exclusion.
 - Tell each sub-agent to write a concise markdown evidence note under `reports/YYYY-MM-DD/`, with arXiv IDs, recommendation strength, evidence, caveats, and whether the paper should update a topic tracker.
@@ -124,7 +124,7 @@ Do not edit decisions.json, final.md, topics/*.md, caches, or scripts. The paren
 - There is no fixed number of final recommendations. Keep only papers you judge high-value after comparison; do not pad the report to a target count, and do not keep a paper merely because it was deep-read.
 - Write final recommendations in Chinese, in your own words. Explain what each selected paper is really about, why it matters, what evidence supports the recommendation, and the key caveats or limitations. Prefer clarity and usefulness over brevity.
 - Prefer yesterday's trending candidates when quality is comparable; use 7-day trending fallback only when yesterday does not provide enough notable papers and clearly label that in the final report.
-- Exclude or downgrade limited-application papers such as remote sensing, medicine, and low-resource language unless they match a user topic. If they match a watched author or strong institution, keep them in that section with a short caveat.
+- Exclude or downgrade limited-application papers such as remote sensing, medicine, and low-resource language unless they match a user topic. If they match a watched author or strong institution, keep them in that section with a short caveat. Prioritize multimodal models that are not primarily large-model/LLM papers, multimodal fusion, and TabPFN/tabular methods. Do not prioritize robotics, robot manipulation, VLA, or WAM papers; exclude or downgrade them by default unless the user explicitly requests that area for the current run or they are unusually central to a non-robotics multimodal/fusion question.
 - Author hits are exact normalized alias matches. Do not infer a watched author from institution or lab context.
 - Institution hits require structured affiliation/org/institution evidence. Do not infer institution membership from common author knowledge.
 - Topic updates should only include papers worth appending to the topic tracker. Local topic matching uses the explicit `include_keywords` list and requires at least one strong multi-word anchor phrase match; avoid weak keyword-only matches unless the abstract/TLDR clearly fits.
