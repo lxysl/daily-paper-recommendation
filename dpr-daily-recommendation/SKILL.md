@@ -48,7 +48,9 @@ Keep arXiv IDs only. Put topic updates under the existing topic slug from `topic
 conda run -n academic python dpr-daily-recommendation/scripts/daily_recommend.py apply --workspace . --date YYYY-MM-DD --decisions reports/YYYY-MM-DD/decisions.json
 ```
 
-6. Check `reports/YYYY-MM-DD/final.md` and the changed `topics/*.md` rows. If the generated report is too terse, manually rewrite it from the deep-review evidence instead of leaving abstract snippets. Keep all day-specific review notes, sub-agent notes, decision files, and final reports under `reports/YYYY-MM-DD/`.
+By default, `apply` also downloads arXiv source only for the final recommended papers, extracts high-confidence model/structure and result/effect figures, writes assets under `reports/YYYY-MM-DD/assets/<arxiv-id>/`, and records status in `reports/YYYY-MM-DD/source-figures.json`. Use `--skip-source-figures` to disable this, `--max-source-figures-per-paper` to change the per-paper limit, and `--source-sleep-seconds` to control arXiv source download pacing. Source figure failures are warnings and must not block the final report. Keep source-figure failures separate from paper caveats or limitations; if a recommended paper has a figure extraction failure, mention it as a small note directly below that paper's summary, e.g. `<small>图片提取失败：...</small>`.
+
+6. Check `reports/YYYY-MM-DD/final.md`, `reports/YYYY-MM-DD/source-figures.json`, and the changed `topics/*.md` rows. Write the user-facing DPR report in Chinese, including the final recommendation text, selected model/result figures when available, downgrade/exclusion notes, caveats, and the final response summary to the user. If the generated report is too terse, manually rewrite it from the deep-review evidence instead of leaving abstract snippets. When rewriting, do not treat source-figure extraction failures as paper limitations; keep the limitation/caveat sentence about the paper itself, and place figure extraction status as a small note below the recommendation summary. Keep filenames, JSON keys, commands, arXiv IDs, and technical terms unchanged where appropriate. Keep all day-specific review notes, sub-agent notes, decision files, source-figure records, and final reports under `reports/YYYY-MM-DD/`.
 
 ## Subagent Deep Review
 
@@ -119,6 +121,7 @@ Do not edit decisions.json, final.md, topics/*.md, caches, or scripts. The paren
 
 - Review all collected paper abstracts/TLDRs before making recommendations. Do not recommend from the review artifact alone.
 - The deep-read set is a working candidate pool, not the final report. A deeply read paper can still be dropped, and an initially overlooked abstract can still be promoted after further reading.
+- Do not download arXiv source for the full candidate set. Fetch source figures only after `decisions.json` identifies the final recommended papers.
 - For papers that look potentially important, broadly useful, surprising, or likely to interest the reader, pull longer paper content such as raw full text, preview, or key sections and read it before final selection.
 - Selection must be iterative. Repeatedly add promising new papers, drop weaker old candidates, and compare papers against the current final cutoff until the recommendation set is stable.
 - There is no fixed number of final recommendations. Keep only papers you judge high-value after comparison; do not pad the report to a target count, and do not keep a paper merely because it was deep-read.

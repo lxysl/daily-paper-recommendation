@@ -4,7 +4,7 @@ Daily Paper Recommendation (DPR) 是一个面向个人研究跟踪的 arXiv 每�
 
 本项目包含两个 Codex skill：
 
-- `dpr-daily-recommendation`：收集某一天的 arXiv 公告论文，生成 review artifacts、AI 决策模板、最终日报，并更新 topic tracker。
+- `dpr-daily-recommendation`：收集某一天的 arXiv 公告论文，生成 review artifacts、AI 决策模板、最终日报和论文关键图片，并更新 topic tracker。
 - `dpr-create-topic`：创建 `topics/*.md` 研究主题追踪文件，支持用 arXiv 种子论文初始化。
 
 ## 目录结构
@@ -14,8 +14,9 @@ Daily Paper Recommendation (DPR) 是一个面向个人研究跟踪的 arXiv 每�
 ├── authors.md                         # 关注作者列表
 ├── institutions.md                    # 关注机构列表
 ├── topics/                            # 研究主题追踪表
-├── reports/                           # 每日 review、决策、最终报告
-├── cache/deepxiv/                     # arXiv/DeepXiv 缓存
+├── reports/                           # 每日 review、决策、最终报告和图像资产
+├── cache/deepxiv/                     # arXiv/DeepXiv 元数据缓存
+├── cache/arxiv-source/                # 最终推荐论文的 arXiv source 缓存
 ├── dpr-daily-recommendation/
 │   ├── SKILL.md
 │   └── scripts/daily_recommend.py
@@ -33,7 +34,7 @@ Daily Paper Recommendation (DPR) 是一个面向个人研究跟踪的 arXiv 每�
 ```
 Please help me install the skills from https://github.com/lxysl/daily-paper-recommendation, just clone it then follow the INSTALL.md.
 After installation, prompt me to confirm: "The current configuration for daily paper recommendation excludes papers with limited application scope, such as remote sensing, medicine, and minority languages. If you need to modify it, please enter the fields you wish to exclude."
-If fields are provided, update `dpr-daily-recommendation/SKILL.md:127`.
+If fields are provided, update the limited-application paper rule in `dpr-daily-recommendation/SKILL.md`.
 ```
 
 ## 手动安装
@@ -131,7 +132,7 @@ conda run -n academic python dpr-create-topic/scripts/create_topic.py create \
 Use $dpr-daily-recommendation to collect and recommend papers for 2026-05-05.
 ```
 
-不指定日期时，skill 会默认处理北京时间昨天对应的 arXiv announcement day。它会先运行本地 collect 脚本，收集 `cs.AI`、`cs.LG`、`cs.CV`、`cs.RO` 的公告论文，并用 DeepXiv brief/head/search/trending 信息增强缓存；然后读取 review report、候选 JSON 和完整 enriched cache，深读值得比较的论文；最后填写 `decisions.json`、应用决策、更新 topic tracker，并把最终推荐改写成中文报告。
+不指定日期时，skill 会默认处理北京时间昨天对应的 arXiv announcement day。它会先运行本地 collect 脚本，收集 `cs.AI`、`cs.LG`、`cs.CV`、`cs.RO` 的公告论文，并用 DeepXiv brief/head/search/trending 信息增强缓存；然后读取 review report、候选 JSON 和完整 enriched cache，深读值得比较的论文；最后填写 `decisions.json`、应用决策、更新 topic tracker，只为最终推荐论文下载 arXiv source 并提取高置信模型/结构图和效果/结果图，再把最终推荐改写成中文报告。
 
 候选较多时，skill 会把深读任务拆给 sub-agents 并行处理。sub-agents 只写证据笔记，主 Agent 负责最终取舍、`decisions.json`、topic 更新和报告综合。
 
@@ -142,11 +143,16 @@ reports/YYYY-MM-DD/review.md                 # 初筛候选、作者/机构/topi
 reports/YYYY-MM-DD/decisions.template.json   # 决策模板
 reports/YYYY-MM-DD/decisions.json            # Agent 选择后的最终决策
 reports/YYYY-MM-DD/final.md                  # 中文日报
+reports/YYYY-MM-DD/source-figures.json       # arXiv source 图像提取状态
+reports/YYYY-MM-DD/assets/<arxiv-id>/         # 推荐论文的模型/结构图和效果/结果图
 reports/YYYY-MM-DD/deep-review-*.md          # 可选，sub-agent 或主 Agent 的深读证据
 cache/deepxiv/YYYY-MM-DD/papers.enriched.json
 cache/deepxiv/YYYY-MM-DD/candidates.json
+cache/arxiv-source/YYYY-MM-DD/                # 最终推荐论文的 source 缓存
 topics/*.md                                  # 被选中的 topic 更新行
 ```
+
+图像提取是最终推荐后的 best-effort 步骤。提取失败不会阻塞日报；报告里的论文 caveat 应描述论文自身的限制，图像提取状态单独放在推荐摘要下方的小注中。手动运行 `apply` 时，可以用 `--skip-source-figures` 跳过图像提取，或用 `--max-source-figures-per-paper` 和 `--source-sleep-seconds` 调整提取数量与 arXiv 下载间隔。
 
 如果需要快速检查管线，可以让 Agent 使用 smoke test 参数；如果需要回填历史日期，直接在请求里写明日期。
 
