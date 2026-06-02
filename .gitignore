@@ -1,4 +1,5 @@
 .specstory
+.env
 __pycache__
 tests
 

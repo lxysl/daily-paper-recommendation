@@ -4,7 +4,7 @@ Daily Paper Recommendation (DPR) 是一个面向个人研究跟踪的 arXiv 每�
 
 本项目包含两个 Codex skill：
 
-- `dpr-daily-recommendation`：收集某一天的 arXiv 公告论文，生成 review artifacts、AI 决策模板、最终日报和论文图像资产，并更新 topic tracker。
+- `dpr-daily-recommendation`：收集某一天的 arXiv 公告论文，生成 review artifacts、AI 决策模板、最终日报和论文关键图片，并更新 topic tracker。
 - `dpr-create-topic`：创建 `topics/*.md` 研究主题追踪文件，支持用 arXiv 种子论文初始化。
 
 ## 目录结构
